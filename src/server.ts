@@ -67,6 +67,8 @@ if (!emailRegex.test(email.trim())) {
       "INSERT INTO users (username, email) VALUES ($1, $2) RETURNING *",
       [username, email]
     );
+        // 3. Delete the old users cache
+          await redisClient.del("users:all");
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
